@@ -6,54 +6,33 @@ Last updated: 2026-08-23
 
 - Project repository: `Yazhan-Labs/yazhan-downloads`
 - Stable GitHub repository ID: `1329118286`
-- Historical/superseded repository path: `balajibj/yazhan-downloads`
+- Historical/superseded path: `balajibj/yazhan-downloads`
 - Default branch: `main`
-- Project baseline inspected before this continuity-only adoption commit: `7772547b6b2e6531bf203b7113050e4e827299b0`
-- Baseline commit message: `Initial commit`
 - Purpose: shared public binary downloads for Yazhan Labs products.
-- Repository role: public distribution/release repository. It is not an application source repository and must not contain product source code, secrets, private keys, credentials, customer data, or owner-only material.
+- Repository role: public distribution/release repository only. Do not commit product source, secrets, private keys, credentials, customer data, or owner-only material here.
 
-## Current GitHub state inspected
+## Current repository state
 
-- Branches: `main` only.
-- Baseline source content: `README.md` only, describing this repository as shared public binary downloads for Yazhan Labs products.
-- `.github/workflows`: not present at the inspected baseline.
-- Workflow runs for the inspected baseline commit: none.
-- No runner/CI execution surface is currently established in this repository.
-- Central adoption continuity commit read back and verified: `13a0767664b228d39871d22017678ed4c1e5c07d`.
-
-Existing tags, GitHub Releases, and published customer-distribution assets are protected release state. This Central adoption/continuity update does not create, replace, republish, delete, or otherwise mutate any release/tag/asset.
-
-## Repository transfer continuity
-
-GitHub resolves both the historical path `balajibj/yazhan-downloads` and the current path `Yazhan-Labs/yazhan-downloads` to stable repository ID `1329118286`.
-
-Result: this is the same repository continuity after transfer. Current-state references use `Yazhan-Labs/yazhan-downloads`; historical records may retain the old path as historical evidence.
+- Central adoption bootstrap completed and verified previously.
+- Continuity closeout commit: `5cfb629158ec5e1c4a2ddd3eaf4ecc9ae9dd007f`.
+- New release-handoff checkpoint: `74b542ed5f09f073d97572911a44455c032117a5`.
+- `.github/workflows` is not established in this repository.
+- This public repository remains excluded from the Yazhan Labs shared self-hosted runner pool.
+- Existing public releases/tags/assets are protected release state and must not be deleted or replaced outside an exact approved release task.
 
 ## CENTRAL ADOPTION RECEIPT
 
-### Repository and owner confirmation
-
-- PROJECT REPOSITORY: `Yazhan-Labs/yazhan-downloads`
 - CENTRAL REPOSITORY: `Yazhan-Labs/Yazhan-Labs-Central`
-- Central stable GitHub repository ID: `1331787973`
+- Central stable repository ID: `1331787973`
 - Historical/superseded Central path: `balajibj/Yazhan-Labs-Central`
-- Project identity resolution method: `PROVEN FROM DURABLE/AUTHORITATIVE EVIDENCE`
-- Owner repository-pair confirmation: YES — 2026-08-23. The owner-confirmed historical Central alias was reconciled to the current canonical Central path under the same stable repository identity.
-- Central adoption/check date: 2026-08-23
+- Project identity resolution: `PROVEN FROM DURABLE/AUTHORITATIVE EVIDENCE`
+- Owner repository confirmation: YES — 2026-08-23
+- Central adopted: `1.11.6`
+- Central ref: `main`
+- Active manifest: Central `1.11.6`
+- Full refresh completed because no prior valid adoption receipt existed.
 
-### Central version/ref checked
-
-- Central version adopted: `1.11.6`
-- Central ref checked: `main`
-- Latest Central commit observed during adoption: `194ca79df3524ab7b892db536ab2b97734df76ec`
-- `STANDARD_VERSION` at current `main`: `1.11.6`
-- Active standard manifest checked: `ACTIVE_STANDARD_MANIFEST.md`, Central `1.11.6`
-- Active manifest blob SHA observed: `e3e968c63c09515ad61a35192f2fd6c49f688edf`
-- No previous durable Central Adoption Receipt existed in this repository, so a full manifest-controlled refresh was performed.
-- `CHANGELOG.md` was reviewed through the current lineage, including the current 1.11.x changes and the prior active-lineage summary back to Central 1.0.0.
-
-### Universal/core Central files read
+Universal/core files read for adoption:
 
 1. `STANDARD_VERSION`
 2. `CHANGELOG.md`
@@ -77,84 +56,91 @@ Result: this is the same repository continuity after transfer. Current-state ref
 20. `RELEASE_VERSIONING_STANDARD.md`
 21. `LEGAL_HELP_ABOUT_STANDARD.md`
 
-### Platform/conditional Central files reviewed
+Platform/conditional review:
 
-- `WINDOWS_DESKTOP_APP_STANDARD.md` — reviewed because this distribution repository currently serves Windows-software release use cases; the repository itself contains no Windows application source.
-- `ORGANIZATION_SHARED_RUNNER_STANDARD.md` — applicable to repository ownership/routing reconciliation. Result: this public repository is explicitly excluded from the Yazhan Labs shared self-hosted runner pool.
-- `LOCAL_BUILD_ARTIFACT_STANDARD.md` — reviewed for distribution/artifact boundary. Operational local self-hosted build retention is not established in this repository because it has no build workflow. Published GitHub Release assets are customer-distribution assets and are not routine Actions artifacts eligible for cleanup under that standard.
-
-### Files/conditions not applicable to the current repository state
-
-- `ANDROID_APP_STANDARD.md` — not an Android application source repository.
-- `WEB_PROJECT_STANDARD.md` — not a web/web-service/web-UI source repository.
-- `SELF_HOSTED_RUNNER_STANDARD.md` — no self-hosted workflow applies here; the public repository is explicitly excluded from the shared self-hosted runner trust boundary.
-- `SHARED_HOST_TOOLCHAIN_STANDARD.md` — no shared-runner/toolchain execution applies here.
-- `GPT_RUNNER_VERIFICATION_LOOP_STANDARD.md` — no project workflow/runner verification surface exists here.
-- `GPT_VISIBLE_RUNNER_RESULT_RECEIPT_STANDARD.md` — no self-hosted runner result reconciliation applies here.
-- `CENTRAL_LICENSING_INTEGRATION_STANDARD.md` — this distribution repository itself is not a Central Licensing consumer.
-- `CENTRAL_LICENSING_AUTOMATION_STANDARD.md` — no Central Licensing production mutation/onboarding belongs to this repository.
-
-### Project continuity/current-state files read
-
-- `PROJECT_MASTER.md` — missing before this adoption; created by this continuity update and read back from GitHub.
-- `README.md` — read and verified.
-- `docs/DECISION_LOG.md` — not present.
-- `docs/SESSION_LOG.md` — not present.
-- `docs/BUILD_AND_RELEASE.md` — not present.
-- `docs/FILE_AND_ASSET_MAP.md` — not present.
-- Current repository metadata, branch list, baseline commit, baseline source diff, workflow-directory state, and baseline workflow-run state were inspected directly from GitHub.
-
-### Conflicts, migrations, and owner decisions
-
-- Repository owner/name transfer found: YES.
-- Transfer continuity proof: PASS — historical and current paths resolve to the same stable repository ID.
-- Central owner/name transfer found: YES.
-- Central transfer continuity proof: PASS — historical and current paths resolve to the same stable repository ID.
-- Missing durable project continuity found: YES — `PROJECT_MASTER.md` was absent and has now been created and verified.
-- Shared-runner mismatch found: NO. Current Central explicitly excludes `Yazhan-Labs/yazhan-downloads` from the shared self-hosted runner pool.
-- Product/source architecture conflict found: NO. The repository remains distribution-only.
-- Release mutation required for Central adoption: NO.
-- Owner decision required now: NONE.
-- Protected release action approval: NOT GRANTED / NOT NEEDED for this documentation-only adoption. Any future release/tag/asset publication, replacement, deletion, or other protected release mutation requires the applicable fresh exact owner approval and verification gates.
-
-### CENTRAL COMPLIANCE
+- `WINDOWS_DESKTOP_APP_STANDARD.md` — reviewed for Windows distributable context.
+- `ORGANIZATION_SHARED_RUNNER_STANDARD.md` — reviewed; `yazhan-downloads` is explicitly excluded from shared self-hosted runners.
+- `LOCAL_BUILD_ARTIFACT_STANDARD.md` — reviewed for artifact/distribution boundary.
+- Android/Web/self-hosted runner/toolchain/runner-receipt/Central-Licensing standards are not operationally applicable to this repository's current execution state.
 
 `CENTRAL COMPLIANCE: PASS`
 
-Basis: all manifest-required universal/core files were read; relevant platform/conditional rules were reviewed; current GitHub baseline was inspected; repository transfers were reconciled by stable ID; the public self-hosted-runner exclusion was preserved; no unresolved contradiction remains; and this durable adoption receipt is stored and verified in the project repository.
+Central is still `1.11.6` as of the current work-start check, matching this valid receipt. No repeat full refresh is required solely for this new release task.
 
-### Fresh-instance and continuous-execution adoption
+## ACTIVE JOB
 
-- Fresh GPT recovery: adopt current durable GitHub/Central truth; do not ask the owner to repeat already-provable repository identity, runner exclusion, or unchanged project facts.
-- Central unchanged + valid receipt: do not repeat a full Central refresh solely because the GPT instance changes.
-- Continuous execution: no owner wake message is required while safe authorized work remains in the current turn.
-- Runner READY-work scan: applicable whenever a future asynchronous runner/external block exists; currently no runner surface exists here.
-- Queue auto-drain and urgent-job auto-resume: adopted.
+`Publish Yazhan Chat Cleaner 2.1.1 to Yazhan-Labs/yazhan-downloads using the established cross-repository release path.`
 
-## ACTIVE JOB / work blocks
+Owner supplied a release handoff on 2026-08-23 with explicit merge + public-release approval for this exact v2.1.1 scope.
 
-ACTIVE JOB: `NONE — Central 1.11.6 full refresh + durable continuity bootstrap COMPLETE`
+Durable detailed handoff:
 
-- Block 1 — repository identity/current GitHub baseline: `VERIFIED / COMPLETE`
-- Block 2 — manifest-controlled Central 1.11.6 refresh: `VERIFIED / COMPLETE`
-- Block 3 — transfer/runner/release-boundary reconciliation: `VERIFIED / COMPLETE`
-- Block 4 — durable `PROJECT_MASTER.md` adoption receipt + GitHub read-back: `VERIFIED / COMPLETE`
+`docs/YAZHAN_CHAT_CLEANER_2.1.1_PUBLIC_RELEASE.md`
+
+### Approved public release identity
+
+- source repository: `Yazhan-Labs/Yazhan-Chat-Cleaner`
+- source tag: `v2.1.1`
+- source/tag commit: `5d7d84bc0551a97a1bc098a90f6b254ed2a1a797`
+- public repository: `Yazhan-Labs/yazhan-downloads`
+- public release tag: `yazhan-chat-cleaner-v2.1.1`
+- public release title: `Yazhan Chat Cleaner 2.1.1`
+- assets: `YazhanChatCleaner-2.1.1-Setup.exe`, `SHA256SUMS.txt`
+- installer SHA-256: `6787fb92723be614863df1590d85d437c322773ca4216c6980e50a09453708f0`
+- standalone app SHA-256: `8f4b476cd3df1cd2787274a7d2f823e0b5d0824cdad8d12f729a220b41bef68d`
+- release notes source: `RELEASE_NOTES.md` at source tag `v2.1.1`
+
+### Verified source/tag release evidence
+
+- `VERSION.txt` at `v2.1.1`: `2.1.1`
+- tagged validation run: `32640759815`
+- build-and-package job `97197383637`: `PASS`
+- publish-public-release job `97197672129`: `FAIL` at publication only
+- tagged publish checkout: `refs/tags/v2.1.1` at `5d7d84bc0551a97a1bc098a90f6b254ed2a1a797`
+- exact validated local release handoff prepared before failure: `E:\YazhanLabs\Build_Artifacts\Yazhan-Chat-Cleaner\.release-handoff-32640759815`
+- failed publish cleanup: skipped, so the handoff was preserved
+
+### Established release architecture
+
+The actual established path is cross-repository publication from the tagged `Yazhan-Labs/Yazhan-Chat-Cleaner` workflow using `scripts/publish-github-release.ps1`.
+
+The publisher targets `Yazhan-Labs/yazhan-downloads`, validates release assets against `SHA256SUMS.txt`, is tag-ref gated, and uses the Chat Cleaner Actions repository secret `YAZHAN_DOWNLOADS_TOKEN` as `GH_TOKEN` for target GitHub Release API operations.
+
+Do not create a second Downloads-owned release workflow merely to bypass this established architecture.
+
+### Current block states
+
+- Block 1 — current Central/Downloads continuity check: `VERIFIED / COMPLETE`
+- Block 2 — source v2.1.1 tag/version/release-notes verification: `VERIFIED / COMPLETE`
+- Block 3 — tagged run/build/hash/publication-failure verification: `VERIFIED / COMPLETE`
+- Block 4 — release architecture + minimum token-permission audit: `VERIFIED / COMPLETE`
+- Block 5 — configure `YAZHAN_DOWNLOADS_TOKEN`: `BLOCKED — OWNER-ONLY CREDENTIAL ACTION / TOOL CAPABILITY UNAVAILABLE`
+- Block 6 — rerun failed publish job `97197672129`: `READY AFTER BLOCK 5`
+- Block 7 — verify public release tag/title/assets/hash/URL and close continuity: `READY AFTER BLOCK 6`
 
 PENDING JOB queue: `EMPTY`
 
 Interrupted/suspended jobs: `NONE`
 
-Runner state: `NOT APPLICABLE / EXCLUDED` — public `yazhan-downloads` must remain outside the Yazhan Labs shared self-hosted runner pool unless the owner separately approves a different trust model.
+## Exact blocker
 
-## Release/distribution guardrails
+The established tagged publisher failed before any target release write because `GH_TOKEN` was empty:
 
-- Preserve existing public releases, tags, and customer-facing assets unless a future task explicitly targets them and all release/protected-action gates are satisfied.
-- Do not invent download URLs, release assets, checksums, versions, or publication state.
-- Before any future distribution change, inspect the actual current GitHub release/tag/asset state and the owning product project's verified release evidence.
-- A green build or available installer does not by itself authorize publication.
-- Final distributable filenames must preserve clear product + semantic-version identity where technically possible.
-- Do not commit source code or secrets to this public distribution repository.
+`Repository secret YAZHAN_DOWNLOADS_TOKEN is required for tagged public releases.`
+
+The connected GitHub capability available to this GPT exposes workflow retry/read and repository content operations, but does not expose GitHub Actions repository-secret creation/update or direct GitHub Release creation/upload.
+
+Minimum safe credential:
+
+- fine-grained credential limited to `Yazhan-Labs/yazhan-downloads`
+- repository permission: `Contents: Read and write`
+- stored only in `Yazhan-Labs/Yazhan-Chat-Cleaner` as Actions secret `YAZHAN_DOWNLOADS_TOKEN`
+- never expose the value in chat, logs, issues, commits, files, workflow output, or release notes
 
 ## Exact next action
 
-No ACTIVE or PENDING project job remains. Await a specific owner-initiated distribution/release request. Before any future mutation, run the current Mandatory GPT Work Gate, synchronize this continuity with current GitHub, and verify the actual current release/tag/asset state relevant to that request. Do not mutate protected release state without the applicable fresh exact owner approval.
+Owner securely configures `YAZHAN_DOWNLOADS_TOKEN` in `Yazhan-Labs/Yazhan-Chat-Cleaner` with target-only `Yazhan-Labs/yazhan-downloads` and `Contents: Read and write` permission.
+
+Once that exact blocker is removed, the next safe action is to reconcile no equivalent publication has already completed, then re-run failed publish job ID `97197672129` from tagged run `32640759815` without rebuilding or retagging. Verify the rerun remains on `refs/tags/v2.1.1` / commit `5d7d84bc0551a97a1bc098a90f6b254ed2a1a797`, then verify the exact public release identity and installer SHA-256 before marking COMPLETE.
+
+Do not change Chat Cleaner application code, Central Licensing, Stripe, USD 10/year pricing, customer/subscription/licence/device state, shared runner infrastructure, source tag `v2.1.1`, or unrelated public releases.
