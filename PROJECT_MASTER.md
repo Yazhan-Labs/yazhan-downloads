@@ -20,6 +20,7 @@ Last updated: 2026-08-23
 - `.github/workflows`: not present at the inspected baseline.
 - Workflow runs for the inspected baseline commit: none.
 - No runner/CI execution surface is currently established in this repository.
+- Central adoption continuity commit read back and verified: `13a0767664b228d39871d22017678ed4c1e5c07d`.
 
 Existing tags, GitHub Releases, and published customer-distribution assets are protected release state. This Central adoption/continuity update does not create, replace, republish, delete, or otherwise mutate any release/tag/asset.
 
@@ -95,7 +96,7 @@ Result: this is the same repository continuity after transfer. Current-state ref
 
 ### Project continuity/current-state files read
 
-- `PROJECT_MASTER.md` — missing before this adoption; created by this continuity update.
+- `PROJECT_MASTER.md` — missing before this adoption; created by this continuity update and read back from GitHub.
 - `README.md` — read and verified.
 - `docs/DECISION_LOG.md` — not present.
 - `docs/SESSION_LOG.md` — not present.
@@ -109,7 +110,7 @@ Result: this is the same repository continuity after transfer. Current-state ref
 - Transfer continuity proof: PASS — historical and current paths resolve to the same stable repository ID.
 - Central owner/name transfer found: YES.
 - Central transfer continuity proof: PASS — historical and current paths resolve to the same stable repository ID.
-- Missing durable project continuity found: YES — `PROJECT_MASTER.md` was absent and is created by this adoption.
+- Missing durable project continuity found: YES — `PROJECT_MASTER.md` was absent and has now been created and verified.
 - Shared-runner mismatch found: NO. Current Central explicitly excludes `Yazhan-Labs/yazhan-downloads` from the shared self-hosted runner pool.
 - Product/source architecture conflict found: NO. The repository remains distribution-only.
 - Release mutation required for Central adoption: NO.
@@ -120,7 +121,7 @@ Result: this is the same repository continuity after transfer. Current-state ref
 
 `CENTRAL COMPLIANCE: PASS`
 
-Basis: all manifest-required universal/core files were read; relevant platform/conditional rules were reviewed; current GitHub baseline was inspected; repository transfers were reconciled by stable ID; the public self-hosted-runner exclusion was preserved; no unresolved contradiction remains; and this durable adoption receipt is stored in the project repository.
+Basis: all manifest-required universal/core files were read; relevant platform/conditional rules were reviewed; current GitHub baseline was inspected; repository transfers were reconciled by stable ID; the public self-hosted-runner exclusion was preserved; no unresolved contradiction remains; and this durable adoption receipt is stored and verified in the project repository.
 
 ### Fresh-instance and continuous-execution adoption
 
@@ -132,12 +133,12 @@ Basis: all manifest-required universal/core files were read; relevant platform/c
 
 ## ACTIVE JOB / work blocks
 
-ACTIVE JOB: `Central 1.11.6 full refresh + durable continuity bootstrap for Yazhan-Labs/yazhan-downloads`
+ACTIVE JOB: `NONE — Central 1.11.6 full refresh + durable continuity bootstrap COMPLETE`
 
 - Block 1 — repository identity/current GitHub baseline: `VERIFIED / COMPLETE`
 - Block 2 — manifest-controlled Central 1.11.6 refresh: `VERIFIED / COMPLETE`
 - Block 3 — transfer/runner/release-boundary reconciliation: `VERIFIED / COMPLETE`
-- Block 4 — durable `PROJECT_MASTER.md` adoption receipt: `COMPLETE` by this commit; final GitHub read-back remains the immediate verification step.
+- Block 4 — durable `PROJECT_MASTER.md` adoption receipt + GitHub read-back: `VERIFIED / COMPLETE`
 
 PENDING JOB queue: `EMPTY`
 
@@ -156,4 +157,4 @@ Runner state: `NOT APPLICABLE / EXCLUDED` — public `yazhan-downloads` must rem
 
 ## Exact next action
 
-After this file is read back from GitHub and the continuity-only commit is verified, this adoption job is complete. With no pending project job, the repository remains unchanged until the owner initiates a specific future distribution/release task. Any such task starts with the current Mandatory GPT Work Gate and current GitHub release-state verification before mutation.
+No ACTIVE or PENDING project job remains. Await a specific owner-initiated distribution/release request. Before any future mutation, run the current Mandatory GPT Work Gate, synchronize this continuity with current GitHub, and verify the actual current release/tag/asset state relevant to that request. Do not mutate protected release state without the applicable fresh exact owner approval.
