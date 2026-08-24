@@ -114,7 +114,7 @@ jobs:
           handoff_job_id="$(jq -r '[.jobs[] | select(.name == "create-handoff-artifact" and .conclusion == "success")] | first | .id // empty' <<<"$jobs_json")"
           test -n "$handoff_job_id" || { echo "Successful create-handoff-artifact job was not found." >&2; exit 1; }
 
-          gh api "repos/${SOURCE_REPOSITORY}/actions/jobs/${handoff_job_id}/logs" > source-handoff.log
+          gh api --allow-escape-sequences "repos/${SOURCE_REPOSITORY}/actions/jobs/${handoff_job_id}/logs" > source-handoff.log
 
           grep -F "SOURCE RELEASE HANDOFF: PASS" source-handoff.log >/dev/null || { echo "Source handoff PASS receipt is missing." >&2; exit 1; }
           grep -F "Tag: ${SOURCE_TAG}" source-handoff.log >/dev/null || { echo "Source handoff tag receipt mismatch." >&2; exit 1; }
