@@ -1,6 +1,6 @@
 # Yazhan Downloads — Project Master
 
-Last updated: 2026-08-23
+Last updated: 2026-08-24
 
 ## Project identity
 
@@ -9,30 +9,20 @@ Last updated: 2026-08-23
 - Historical/superseded path: `balajibj/yazhan-downloads`
 - Default branch: `main`
 - Purpose: shared public binary downloads for Yazhan Labs products.
-- Repository role: public distribution/release repository only. Do not commit product source, secrets, private keys, credentials, customer data, or owner-only material here.
+- Repository role: public distribution/release repository only.
+- Do not commit product source, secrets, private keys, credentials, customer data, or owner-only material here.
 
-## Current repository state
-
-- Central adoption bootstrap completed and verified previously.
-- Continuity closeout commit: `5cfb629158ec5e1c4a2ddd3eaf4ecc9ae9dd007f`.
-- New release-handoff checkpoint: `74b542ed5f09f073d97572911a44455c032117a5`.
-- `.github/workflows` is not established in this repository.
-- This public repository remains excluded from the Yazhan Labs shared self-hosted runner pool.
-- Existing public releases/tags/assets are protected release state and must not be deleted or replaced outside an exact approved release task.
-
-## CENTRAL ADOPTION RECEIPT
+## Central adoption
 
 - CENTRAL REPOSITORY: `Yazhan-Labs/Yazhan-Labs-Central`
 - Central stable repository ID: `1331787973`
-- Historical/superseded Central path: `balajibj/Yazhan-Labs-Central`
-- Project identity resolution: `PROVEN FROM DURABLE/AUTHORITATIVE EVIDENCE`
-- Owner repository confirmation: YES — 2026-08-23
 - Central adopted: `1.11.6`
-- Central ref: `main`
-- Active manifest: Central `1.11.6`
-- Full refresh completed because no prior valid adoption receipt existed.
+- Current Central check for this work: `1.11.6`
+- Durable full adoption receipt was completed on 2026-08-23.
+- Current status: `CENTRAL COMPLIANCE: PASS`
+- No repeat full Central refresh is required while Central remains `1.11.6` and this receipt remains valid.
 
-Universal/core files read for adoption:
+Universal/core adoption covered:
 
 1. `STANDARD_VERSION`
 2. `CHANGELOG.md`
@@ -56,28 +46,103 @@ Universal/core files read for adoption:
 20. `RELEASE_VERSIONING_STANDARD.md`
 21. `LEGAL_HELP_ABOUT_STANDARD.md`
 
-Platform/conditional review:
+Relevant conditional review:
 
-- `WINDOWS_DESKTOP_APP_STANDARD.md` — reviewed for Windows distributable context.
-- `ORGANIZATION_SHARED_RUNNER_STANDARD.md` — reviewed; `yazhan-downloads` is explicitly excluded from shared self-hosted runners.
-- `LOCAL_BUILD_ARTIFACT_STANDARD.md` — reviewed for artifact/distribution boundary.
-- Android/Web/self-hosted runner/toolchain/runner-receipt/Central-Licensing standards are not operationally applicable to this repository's current execution state.
+- `WINDOWS_DESKTOP_APP_STANDARD.md`
+- `ORGANIZATION_SHARED_RUNNER_STANDARD.md`
+- `LOCAL_BUILD_ARTIFACT_STANDARD.md`
 
-`CENTRAL COMPLIANCE: PASS`
+This public repository remains excluded from the Yazhan Labs shared self-hosted runner pool.
 
-Central is still `1.11.6` as of the current work-start check, matching this valid receipt. No repeat full refresh is required solely for this new release task.
+## Owner release architecture decision — 2026-08-24
+
+The owner explicitly chose a centralized release model.
+
+Current rule:
+
+- Source application repositories build and validate their software.
+- Source application GPTs do NOT publish directly to `yazhan-downloads`.
+- Source application GPTs provide a validated release artifact + release handoff.
+- `Yazhan-Labs/yazhan-downloads` is the only public release publisher.
+- Source app repositories do NOT need `YAZHAN_DOWNLOADS_TOKEN`.
+- The previous Chat Cleaner cross-repository publisher architecture is historical/superseded for future publication.
+
+## Credential model
+
+Owner-confirmed on 2026-08-24:
+
+- secret name: `YAZHAN_SOURCE_ARTIFACT_READ_TOKEN`
+- stored in: `Yazhan-Labs/yazhan-downloads`
+- scope: 9 selected Yazhan application repositories
+- permission: `Actions: Read-only`
+- expiration: 2026-11-22
+- secret value was not exposed in chat
+
+Purpose:
+
+- read approved source Actions artifacts only
+- no write permission to source application repositories
+
+Public release publication uses the Downloads repository's own GitHub Actions `GITHUB_TOKEN` with `contents: write`.
+
+## Downloads-owned publication workflow
+
+Workflow:
+
+`.github/workflows/publish-approved-release.yml`
+
+Created and read back on 2026-08-24.
+
+The workflow:
+
+- runs on GitHub-hosted `ubuntu-latest`
+- requires a manual approved release request
+- requires fresh owner release approval marker
+- verifies source repository/run/tag/commit provenance
+- requires the source run to be successful
+- downloads the exact named source artifact using the read-only source token
+- requires `RELEASE_NOTES.md`
+- requires `SHA256SUMS.txt`
+- verifies every public asset present in the artifact against `SHA256SUMS.txt`
+- verifies the approved primary asset SHA-256
+- refuses to replace an existing public release
+- refuses to reuse/move an existing public tag
+- publishes using the Downloads repository's own `GITHUB_TOKEN`
+- downloads the published assets again and verifies byte/hash equality
+
+This workflow does not use the shared self-hosted Yazhan runner pool.
+
+## Standard source handoff
+
+Template:
+
+`docs/RELEASE_HANDOFF_TEMPLATE.md`
+
+Required handoff fields:
+
+- source repository
+- source version
+- source tag
+- source commit
+- successful source workflow run ID
+- exact source artifact name
+- public release tag
+- public release title
+- primary asset filename
+- primary asset SHA-256
+- owner release approval state
+
+Required source artifact contents:
+
+- approved public release asset(s)
+- `SHA256SUMS.txt`
+- `RELEASE_NOTES.md`
 
 ## ACTIVE JOB
 
-`Publish Yazhan Chat Cleaner 2.1.1 to Yazhan-Labs/yazhan-downloads using the established cross-repository release path.`
+`Publish Yazhan Chat Cleaner 2.1.1 through the new Downloads-only release path.`
 
-Owner supplied a release handoff on 2026-08-23 with explicit merge + public-release approval for this exact v2.1.1 scope.
-
-Durable detailed handoff:
-
-`docs/YAZHAN_CHAT_CLEANER_2.1.1_PUBLIC_RELEASE.md`
-
-### Approved public release identity
+Approved identity from the owner-supplied handoff:
 
 - source repository: `Yazhan-Labs/Yazhan-Chat-Cleaner`
 - source tag: `v2.1.1`
@@ -85,62 +150,54 @@ Durable detailed handoff:
 - public repository: `Yazhan-Labs/yazhan-downloads`
 - public release tag: `yazhan-chat-cleaner-v2.1.1`
 - public release title: `Yazhan Chat Cleaner 2.1.1`
-- assets: `YazhanChatCleaner-2.1.1-Setup.exe`, `SHA256SUMS.txt`
+- primary asset: `YazhanChatCleaner-2.1.1-Setup.exe`
 - installer SHA-256: `6787fb92723be614863df1590d85d437c322773ca4216c6980e50a09453708f0`
-- standalone app SHA-256: `8f4b476cd3df1cd2787274a7d2f823e0b5d0824cdad8d12f729a220b41bef68d`
-- release notes source: `RELEASE_NOTES.md` at source tag `v2.1.1`
+- public assets expected: installer + `SHA256SUMS.txt`
+- release notes source: `RELEASE_NOTES.md` at `v2.1.1`
 
-### Verified source/tag release evidence
+Verified historical tagged run evidence:
 
-- `VERSION.txt` at `v2.1.1`: `2.1.1`
-- tagged validation run: `32640759815`
-- build-and-package job `97197383637`: `PASS`
-- publish-public-release job `97197672129`: `FAIL` at publication only
-- tagged publish checkout: `refs/tags/v2.1.1` at `5d7d84bc0551a97a1bc098a90f6b254ed2a1a797`
-- exact validated local release handoff prepared before failure: `E:\YazhanLabs\Build_Artifacts\Yazhan-Chat-Cleaner\.release-handoff-32640759815`
-- failed publish cleanup: skipped, so the handoff was preserved
-
-### Established release architecture
-
-The actual established path is cross-repository publication from the tagged `Yazhan-Labs/Yazhan-Chat-Cleaner` workflow using `scripts/publish-github-release.ps1`.
-
-The publisher targets `Yazhan-Labs/yazhan-downloads`, validates release assets against `SHA256SUMS.txt`, is tag-ref gated, and uses the Chat Cleaner Actions repository secret `YAZHAN_DOWNLOADS_TOKEN` as `GH_TOKEN` for target GitHub Release API operations.
-
-Do not create a second Downloads-owned release workflow merely to bypass this established architecture.
+- tagged run: `32640759815`
+- source ref: `v2.1.1`
+- source commit: `5d7d84bc0551a97a1bc098a90f6b254ed2a1a797`
+- build-and-package job: PASS
+- installer SHA-256: `6787fb92723be614863df1590d85d437c322773ca4216c6980e50a09453708f0`
+- old direct publish job: FAIL because its old publishing token was absent
+- tagged Actions artifact upload in that run: skipped
+- overall historical run conclusion: failure because the old direct-publication job failed
 
 ### Current block states
 
-- Block 1 — current Central/Downloads continuity check: `VERIFIED / COMPLETE`
-- Block 2 — source v2.1.1 tag/version/release-notes verification: `VERIFIED / COMPLETE`
-- Block 3 — tagged run/build/hash/publication-failure verification: `VERIFIED / COMPLETE`
-- Block 4 — release architecture + minimum token-permission audit: `VERIFIED / COMPLETE`
-- Block 5 — configure `YAZHAN_DOWNLOADS_TOKEN`: `BLOCKED — OWNER-ONLY CREDENTIAL ACTION / TOOL CAPABILITY UNAVAILABLE`
-- Block 6 — rerun failed publish job `97197672129`: `READY AFTER BLOCK 5`
-- Block 7 — verify public release tag/title/assets/hash/URL and close continuity: `READY AFTER BLOCK 6`
+- Block 1 — owner selects Downloads-only publisher architecture: `COMPLETE`
+- Block 2 — create/save source artifact read-only secret: `OWNER-CONFIRMED COMPLETE`
+- Block 3 — create Downloads-owned fail-closed publisher workflow: `VERIFIED / COMPLETE`
+- Block 4 — create standard release handoff format: `VERIFIED / COMPLETE`
+- Block 5 — obtain a successful Chat Cleaner v2.1.1 source handoff artifact at the same `v2.1.1` / commit: `BLOCKED — SOURCE APP HANDOFF REQUIRED`
+- Block 6 — fresh owner approval immediately before public publication: `WAITING UNTIL BLOCK 5`
+- Block 7 — publish + verify public release: `READY AFTER BLOCKS 5-6`
 
 PENDING JOB queue: `EMPTY`
 
 Interrupted/suspended jobs: `NONE`
 
-## Exact blocker
-
-The established tagged publisher failed before any target release write because `GH_TOKEN` was empty:
-
-`Repository secret YAZHAN_DOWNLOADS_TOKEN is required for tagged public releases.`
-
-The connected GitHub capability available to this GPT exposes workflow retry/read and repository content operations, but does not expose GitHub Actions repository-secret creation/update or direct GitHub Release creation/upload.
-
-Minimum safe credential:
-
-- fine-grained credential limited to `Yazhan-Labs/yazhan-downloads`
-- repository permission: `Contents: Read and write`
-- stored only in `Yazhan-Labs/Yazhan-Chat-Cleaner` as Actions secret `YAZHAN_DOWNLOADS_TOKEN`
-- never expose the value in chat, logs, issues, commits, files, workflow output, or release notes
-
 ## Exact next action
 
-Owner securely configures `YAZHAN_DOWNLOADS_TOKEN` in `Yazhan-Labs/Yazhan-Chat-Cleaner` with target-only `Yazhan-Labs/yazhan-downloads` and `Contents: Read and write` permission.
+The Chat Cleaner project must create a successful handoff-only/tagged Actions run for the already-approved `v2.1.1` commit `5d7d84bc0551a97a1bc098a90f6b254ed2a1a797` and upload one release artifact containing:
 
-Once that exact blocker is removed, the next safe action is to reconcile no equivalent publication has already completed, then re-run failed publish job ID `97197672129` from tagged run `32640759815` without rebuilding or retagging. Verify the rerun remains on `refs/tags/v2.1.1` / commit `5d7d84bc0551a97a1bc098a90f6b254ed2a1a797`, then verify the exact public release identity and installer SHA-256 before marking COMPLETE.
+- `YazhanChatCleaner-2.1.1-Setup.exe`
+- `SHA256SUMS.txt`
+- `RELEASE_NOTES.md`
 
-Do not change Chat Cleaner application code, Central Licensing, Stripe, USD 10/year pricing, customer/subscription/licence/device state, shared runner infrastructure, source tag `v2.1.1`, or unrelated public releases.
+It must not rebuild to a different commit, retag `v2.1.1`, publish directly to Downloads, or receive a Downloads publishing token.
+
+Once the source artifact/run handoff is available, Downloads verifies it, obtains fresh exact owner release approval, publishes, verifies the public bytes, and closes the ACTIVE JOB.
+
+## Protected release guardrails
+
+- Do not invent release URLs, assets, checksums, versions, or publication state.
+- Do not delete existing releases.
+- Do not replace unrelated release assets.
+- Do not move or reuse an existing tag.
+- Do not publish without exact verified source provenance and fresh owner approval.
+- Do not expose credentials.
+- Do not touch Chat Cleaner licensing, Central Licensing production data, Stripe, pricing, customers, subscriptions, licences, device bindings, or shared runner infrastructure.
