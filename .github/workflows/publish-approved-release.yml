@@ -87,7 +87,7 @@ jobs:
           test -n "$SOURCE_ARTIFACT_NAME" || { echo "Source artifact name is required." >&2; exit 1; }
           test -n "$SOURCE_TOKEN" || { echo "YAZHAN_SOURCE_ARTIFACT_READ_TOKEN is required." >&2; exit 1; }
 
-      - name: Verify source workflow provenance
+      - name: Verify source handoff run and tag provenance
         shell: bash
         env:
           GH_TOKEN: ${{ secrets.YAZHAN_SOURCE_ARTIFACT_READ_TOKEN }}
@@ -98,15 +98,22 @@ jobs:
         run: |
           set -euo pipefail
           run_json="$(gh api "repos/${SOURCE_REPOSITORY}/actions/runs/${SOURCE_RUN_ID}")"
-          actual_sha="$(jq -r '.head_sha // empty' <<<"$run_json")"
-          actual_ref="$(jq -r '.head_branch // empty' <<<"$run_json")"
           conclusion="$(jq -r '.conclusion // empty' <<<"$run_json")"
+          run_repository="$(jq -r '.repository.full_name // empty' <<<"$run_json")"
+          event="$(jq -r '.event // empty' <<<"$run_json")"
 
-          test "$conclusion" = "success" || { echo "Source workflow run is not successful." >&2; exit 1; }
-          test "${actual_sha,,}" = "${SOURCE_COMMIT,,}" || { echo "Source workflow commit mismatch." >&2; exit 1; }
-          test "$actual_ref" = "$SOURCE_TAG" || { echo "Source workflow tag mismatch." >&2; exit 1; }
+          test "$conclusion" = "success" || { echo "Source handoff workflow run is not successful." >&2; exit 1; }
+          test "$run_repository" = "$SOURCE_REPOSITORY" || { echo "Source handoff run repository mismatch." >&2; exit 1; }
+          test "$event" = "workflow_dispatch" || { echo "Source handoff run must be an explicit workflow_dispatch." >&2; exit 1; }
 
-          echo "Source provenance verified: ${SOURCE_REPOSITORY} ${SOURCE_TAG} ${SOURCE_COMMIT} run ${SOURCE_RUN_ID}."
+          tag_sha="$(gh api "repos/${SOURCE_REPOSITORY}/commits/${SOURCE_TAG}" --jq '.sha')"
+          commit_sha="$(gh api "repos/${SOURCE_REPOSITORY}/commits/${SOURCE_COMMIT}" --jq '.sha')"
+
+          test "${tag_sha,,}" = "${SOURCE_COMMIT,,}" || { echo "Source tag does not resolve to approved source commit." >&2; exit 1; }
+          test "${commit_sha,,}" = "${SOURCE_COMMIT,,}" || { echo "Approved source commit does not exist in source repository." >&2; exit 1; }
+
+          echo "Source handoff run verified: ${SOURCE_REPOSITORY} run ${SOURCE_RUN_ID}."
+          echo "Source tag provenance verified: ${SOURCE_TAG} -> ${SOURCE_COMMIT}."
 
       - name: Download exact validated release artifact
         uses: actions/download-artifact@v4
