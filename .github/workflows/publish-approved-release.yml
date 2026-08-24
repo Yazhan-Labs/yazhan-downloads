@@ -8,7 +8,7 @@ on:
         required: true
         type: string
       source_run_id:
-        description: Successful source Actions run ID containing the release artifact
+        description: Successful source Actions handoff run ID
         required: true
         type: string
       source_artifact_name:
@@ -16,11 +16,11 @@ on:
         required: true
         type: string
       source_tag:
-        description: Exact source app tag, for example v2.1.1
+        description: Exact approved source app tag, for example v2.1.1
         required: true
         type: string
       source_commit:
-        description: Exact 40-character source commit SHA
+        description: Exact approved 40-character source commit SHA
         required: true
         type: string
       release_tag:
@@ -87,7 +87,7 @@ jobs:
           test -n "$SOURCE_ARTIFACT_NAME" || { echo "Source artifact name is required." >&2; exit 1; }
           test -n "$SOURCE_TOKEN" || { echo "YAZHAN_SOURCE_ARTIFACT_READ_TOKEN is required." >&2; exit 1; }
 
-      - name: Verify source handoff run and tag provenance
+      - name: Verify source handoff run and receipt
         shell: bash
         env:
           GH_TOKEN: ${{ secrets.YAZHAN_SOURCE_ARTIFACT_READ_TOKEN }}
@@ -95,25 +95,34 @@ jobs:
           SOURCE_RUN_ID: ${{ inputs.source_run_id }}
           SOURCE_TAG: ${{ inputs.source_tag }}
           SOURCE_COMMIT: ${{ inputs.source_commit }}
+          PRIMARY_SHA256: ${{ inputs.primary_sha256 }}
         run: |
           set -euo pipefail
+
           run_json="$(gh api "repos/${SOURCE_REPOSITORY}/actions/runs/${SOURCE_RUN_ID}")"
           conclusion="$(jq -r '.conclusion // empty' <<<"$run_json")"
           run_repository="$(jq -r '.repository.full_name // empty' <<<"$run_json")"
           event="$(jq -r '.event // empty' <<<"$run_json")"
+          workflow_path="$(jq -r '.path // empty' <<<"$run_json")"
 
           test "$conclusion" = "success" || { echo "Source handoff workflow run is not successful." >&2; exit 1; }
           test "$run_repository" = "$SOURCE_REPOSITORY" || { echo "Source handoff run repository mismatch." >&2; exit 1; }
           test "$event" = "workflow_dispatch" || { echo "Source handoff run must be an explicit workflow_dispatch." >&2; exit 1; }
+          test "$workflow_path" = ".github/workflows/release-handoff-artifact.yml" || { echo "Unexpected source handoff workflow path." >&2; exit 1; }
 
-          tag_sha="$(gh api "repos/${SOURCE_REPOSITORY}/commits/${SOURCE_TAG}" --jq '.sha')"
-          commit_sha="$(gh api "repos/${SOURCE_REPOSITORY}/commits/${SOURCE_COMMIT}" --jq '.sha')"
+          jobs_json="$(gh api "repos/${SOURCE_REPOSITORY}/actions/runs/${SOURCE_RUN_ID}/jobs?per_page=100")"
+          handoff_job_id="$(jq -r '[.jobs[] | select(.name == "create-handoff-artifact" and .conclusion == "success")] | first | .id // empty' <<<"$jobs_json")"
+          test -n "$handoff_job_id" || { echo "Successful create-handoff-artifact job was not found." >&2; exit 1; }
 
-          test "${tag_sha,,}" = "${SOURCE_COMMIT,,}" || { echo "Source tag does not resolve to approved source commit." >&2; exit 1; }
-          test "${commit_sha,,}" = "${SOURCE_COMMIT,,}" || { echo "Approved source commit does not exist in source repository." >&2; exit 1; }
+          gh api "repos/${SOURCE_REPOSITORY}/actions/jobs/${handoff_job_id}/logs" > source-handoff.log
 
-          echo "Source handoff run verified: ${SOURCE_REPOSITORY} run ${SOURCE_RUN_ID}."
-          echo "Source tag provenance verified: ${SOURCE_TAG} -> ${SOURCE_COMMIT}."
+          grep -F "SOURCE RELEASE HANDOFF: PASS" source-handoff.log >/dev/null || { echo "Source handoff PASS receipt is missing." >&2; exit 1; }
+          grep -F "Tag: ${SOURCE_TAG}" source-handoff.log >/dev/null || { echo "Source handoff tag receipt mismatch." >&2; exit 1; }
+          grep -F "Commit: ${SOURCE_COMMIT}" source-handoff.log >/dev/null || { echo "Source handoff commit receipt mismatch." >&2; exit 1; }
+          grep -Fi "Installer SHA-256: ${PRIMARY_SHA256}" source-handoff.log >/dev/null || { echo "Source handoff installer hash receipt mismatch." >&2; exit 1; }
+          grep -F "No Yazhan Downloads publication was attempted." source-handoff.log >/dev/null || { echo "Source handoff no-publication receipt is missing." >&2; exit 1; }
+
+          echo "Source handoff Actions provenance verified for ${SOURCE_TAG} / ${SOURCE_COMMIT}."
 
       - name: Download exact validated release artifact
         uses: actions/download-artifact@v4
