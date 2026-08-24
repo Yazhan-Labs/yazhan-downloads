@@ -93,13 +93,17 @@ Workflow:
 
 Created and read back on 2026-08-24.
 
+Current workflow fix commit:
+
+`142949dccb5111aac60b49ae9477211dfadfe56f`
+
 The workflow:
 
 - runs on GitHub-hosted `ubuntu-latest`
 - requires a manual approved release request
 - requires fresh owner release approval marker
-- verifies source repository/run/tag/commit provenance
-- requires the source run to be successful
+- verifies the source handoff run is successful and belongs to the stated source repository
+- independently verifies the source tag resolves to the approved source commit
 - downloads the exact named source artifact using the read-only source token
 - requires `RELEASE_NOTES.md`
 - requires `SHA256SUMS.txt`
@@ -142,7 +146,7 @@ Required source artifact contents:
 
 `Publish Yazhan Chat Cleaner 2.1.1 through the new Downloads-only release path.`
 
-Approved identity from the owner-supplied handoff:
+Approved identity:
 
 - source repository: `Yazhan-Labs/Yazhan-Chat-Cleaner`
 - source tag: `v2.1.1`
@@ -155,16 +159,31 @@ Approved identity from the owner-supplied handoff:
 - public assets expected: installer + `SHA256SUMS.txt`
 - release notes source: `RELEASE_NOTES.md` at `v2.1.1`
 
-Verified historical tagged run evidence:
+Verified original tagged build evidence:
 
-- tagged run: `32640759815`
+- tagged validation run: `32640759815`
 - source ref: `v2.1.1`
 - source commit: `5d7d84bc0551a97a1bc098a90f6b254ed2a1a797`
 - build-and-package job: PASS
 - installer SHA-256: `6787fb92723be614863df1590d85d437c322773ca4216c6980e50a09453708f0`
 - old direct publish job: FAIL because its old publishing token was absent
-- tagged Actions artifact upload in that run: skipped
-- overall historical run conclusion: failure because the old direct-publication job failed
+
+Verified centralized source handoff evidence:
+
+- handoff run: `32701462168`
+- handoff job: `create-handoff-artifact` — PASS
+- artifact name: `Yazhan-Chat-Cleaner-v2.1.1-release-handoff`
+- artifact ID: `9510705106`
+- artifact size: `63308039` bytes
+- artifact ZIP SHA-256: `937b234cc8a94746d0943941f8f64a24ff1e1d08ba6ca4dd71f9b09fb61d4e5f`
+- artifact expires: `2026-09-23T07:26:24Z`
+- artifact contains exactly:
+  - `YazhanChatCleaner-2.1.1-Setup.exe`
+  - `SHA256SUMS.txt`
+  - `RELEASE_NOTES.md`
+- downloaded artifact installer SHA-256 independently rechecked: `6787fb92723be614863df1590d85d437c322773ca4216c6980e50a09453708f0`
+- handoff workflow checked out exact approved source commit and verified `v2.1.1` still resolves to that exact commit before staging the retained tagged build
+- no Downloads publication was attempted by the source handoff run
 
 ### Current block states
 
@@ -172,9 +191,9 @@ Verified historical tagged run evidence:
 - Block 2 — create/save source artifact read-only secret: `OWNER-CONFIRMED COMPLETE`
 - Block 3 — create Downloads-owned fail-closed publisher workflow: `VERIFIED / COMPLETE`
 - Block 4 — create standard release handoff format: `VERIFIED / COMPLETE`
-- Block 5 — obtain a successful Chat Cleaner v2.1.1 source handoff artifact at the same `v2.1.1` / commit: `BLOCKED — SOURCE APP HANDOFF REQUIRED`
-- Block 6 — fresh owner approval immediately before public publication: `WAITING UNTIL BLOCK 5`
-- Block 7 — publish + verify public release: `READY AFTER BLOCKS 5-6`
+- Block 5 — obtain and independently verify Chat Cleaner v2.1.1 source handoff artifact: `VERIFIED / COMPLETE`
+- Block 6 — fresh owner approval immediately before public publication: `WAITING — OWNER ACTION`
+- Block 7 — publish + verify public release: `READY AFTER BLOCK 6`
 
 PENDING JOB queue: `EMPTY`
 
@@ -182,15 +201,14 @@ Interrupted/suspended jobs: `NONE`
 
 ## Exact next action
 
-The Chat Cleaner project must create a successful handoff-only/tagged Actions run for the already-approved `v2.1.1` commit `5d7d84bc0551a97a1bc098a90f6b254ed2a1a797` and upload one release artifact containing:
+Obtain fresh exact owner approval to publish this verified artifact as:
 
-- `YazhanChatCleaner-2.1.1-Setup.exe`
-- `SHA256SUMS.txt`
-- `RELEASE_NOTES.md`
+- repository: `Yazhan-Labs/yazhan-downloads`
+- release tag: `yazhan-chat-cleaner-v2.1.1`
+- release title: `Yazhan Chat Cleaner 2.1.1`
+- assets: `YazhanChatCleaner-2.1.1-Setup.exe`, `SHA256SUMS.txt`
 
-It must not rebuild to a different commit, retag `v2.1.1`, publish directly to Downloads, or receive a Downloads publishing token.
-
-Once the source artifact/run handoff is available, Downloads verifies it, obtains fresh exact owner release approval, publishes, verifies the public bytes, and closes the ACTIVE JOB.
+After approval, run the Downloads-owned publication workflow with handoff run `32701462168` and artifact `Yazhan-Chat-Cleaner-v2.1.1-release-handoff`, then verify the public bytes and close the ACTIVE JOB.
 
 ## Protected release guardrails
 
