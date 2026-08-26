@@ -26,7 +26,7 @@ Last updated: 2026-08-26
 - Active manifest checked: `ACTIVE_STANDARD_MANIFEST.md` for Central `1.13.3`
 - Adoption/check date: `2026-08-26`
 - Refresh reason: Central changed from `1.11.7` to `1.13.3`.
-- Current compliance checkpoint: `CENTRAL COMPLIANCE: PARTIAL` while the stale release-specific continuity document is being repaired and post-write verification remains pending.
+- Result: `CENTRAL COMPLIANCE: PASS`
 
 Universal/core files read for the 1.13.3 refresh:
 
@@ -77,8 +77,10 @@ Project continuity and current GitHub state inspected:
 - repository controller issue `#1 — GPT Workflow Controller — GPTs dispatch here`
 - current public release `yazhan-chat-cleaner-v2.1.1`
 - successful Downloads publication run `32708070651`
-- current project branch before this adoption checkpoint: `main`
-- project commit inspected before this adoption checkpoint: `3df79fba5671ba2c1228cc19dec3bf39ca8232d5`
+- project branch: `main`
+- project commit inspected before adoption mutation: `3df79fba5671ba2c1228cc19dec3bf39ca8232d5`
+- Central-adoption checkpoint commit: `9ed3b153332dcffe804e5752c0b53582125deb9f`
+- continuity-repair commit inspected: `b06f40569208c598e6f63f728ca62c46e500f5f3`
 
 1.13.3 reconciliation / migrations found:
 
@@ -88,7 +90,7 @@ Project continuity and current GitHub state inspected:
 - Downloads workflows remain on `ubuntu-latest`; no runner migration is required or authorized.
 - Existing protected public-release gate remains unchanged: fresh exact owner release approval is still required before publication.
 - Existing centralized release architecture remains: source application repositories prepare/validate one handoff artifact; `Yazhan-Labs/yazhan-downloads` is the only public publisher.
-- A stale continuity contradiction was found: `docs/YAZHAN_CHAT_CLEANER_2.1.1_PUBLIC_RELEASE.md` still described the old blocked cross-repository token path, while later `PROJECT_MASTER.md`, current workflows, public release evidence, and successful run prove the new Downloads-owned publisher completed the release. This is a stale continuity defect, not an unresolved architecture choice. Repair is in progress.
+- The stale continuity contradiction in `docs/YAZHAN_CHAT_CLEANER_2.1.1_PUBLIC_RELEASE.md` was repaired on 2026-08-26. It now records the proven completed Downloads-owned publication and explicitly marks the older blocked cross-repository token path as historical/superseded.
 - Central changelog currently jumps from `1.11.7` to `1.13.0` while `1.13.0` references the superseded `1.12.0` Bridge-first policy. Current `1.13.3` manifest/gate/standards explicitly supersede that historical policy, so no owner decision is required.
 - Owner decisions required after canonical Central selection: `NONE`.
 
@@ -100,15 +102,15 @@ Fresh-instance / execution behavior adopted:
 - Async work triggers READY-work scan; no owner wake message is required to continue already-authorized work.
 - Queue auto-drain and urgent-job auto-resume behavior are adopted.
 
-### ACTIVE JOB — Central 1.13.3 refresh + continuity reconciliation
-
-`BLOCK MAP`
+### Central refresh block map — COMPLETE
 
 1. Repository identity + current GitHub state — `VERIFIED / COMPLETE`
 2. Full manifest-controlled Central 1.13.3 refresh — `VERIFIED / COMPLETE`
 3. Workflow/controller/public-release proof reconciliation — `VERIFIED / COMPLETE`
-4. Durable continuity repair (`PROJECT_MASTER.md` + stale Chat Cleaner release continuity) — `RUNNING`
-5. Post-write GitHub re-read + final compliance closeout — `READY`
+4. Durable continuity repair (`PROJECT_MASTER.md` + stale Chat Cleaner release continuity) — `VERIFIED / COMPLETE`
+5. Post-write GitHub re-read + final compliance closeout — `VERIFIED / COMPLETE`
+
+`ACTIVE JOB: NONE — CENTRAL 1.13.3 REFRESH + CONTINUITY RECONCILIATION COMPLETE`
 
 `PENDING JOB queue: EMPTY`
 
@@ -116,14 +118,16 @@ Interrupted/suspended jobs: `NONE`
 
 Current execution channels:
 
-- GitHub connector: available for repository read/write and current continuity work.
+- GitHub connector: available for repository read/write and continuity work.
 - Repository GPT Workflow Controller issue `#1`: verified open and available for future approved `workflow_dispatch` release execution.
 - Local PC Bridge: Central-approved complementary channel when technically relevant.
 - Organization self-hosted runners: not available to this public repository by policy; Downloads workflows currently use GitHub-hosted `ubuntu-latest`.
 - Outstanding Bridge jobs: `NONE`.
 - Outstanding Downloads workflow/run jobs: `NONE`.
 
-Exact next action: repair `docs/YAZHAN_CHAT_CLEANER_2.1.1_PUBLIC_RELEASE.md` to reflect the proven completed release and superseded architecture, then re-read both continuity files/current `main` and close Central compliance to PASS if GitHub proof matches.
+## Exact next action
+
+Await the next owner-approved Yazhan application release handoff. Source app GPTs prepare the standard verified handoff artifact only. Downloads verifies the handoff, obtains fresh exact protected-release approval, dispatches the Downloads publisher through the approved workflow/controller path, publishes with the Downloads repository token, and verifies the public bytes before recording completion.
 
 ## Centralized release architecture
 
