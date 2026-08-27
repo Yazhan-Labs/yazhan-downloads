@@ -4,7 +4,7 @@ Last updated: 2026-08-27
 
 ## Status
 
-`STATUS: BLOCKED — SOURCE WORKFLOW PERMISSION FIX REQUIRES OWNER APPROVAL`
+`STATUS: COMPLETE — PUBLIC GITHUB RELEASE VERIFIED`
 
 Fresh exact owner approval to publish WhatsApp Approved Batch Assistant `v3.0.1` was received on 2026-08-27.
 
@@ -92,22 +92,58 @@ to `.github/workflows/release-handoff-artifact.yml`, then run the same standard 
 
 No source handoff artifact was produced by run `33057272843`. No Yazhan Downloads publication was attempted by the source workflow.
 
-## ACTIVE JOB — Publish WhatsApp Approved Batch Assistant 3.0.1
+## VERIFIED STANDARD SOURCE HANDOFF
 
-### BLOCK MAP
+The requested source workflow was corrected with the approved raw-log receipt emission and rerun successfully.
 
-1. Verify release identity + source handoff content — `VERIFIED / COMPLETE`
-2. Fresh exact owner public-release approval — `COMPLETE`
-3. Initial Downloads publisher attempt — `FAIL-CLOSED / COMPLETE`
-4. Standard source handoff correction run — `FAIL-CLOSED / COMPLETE`
-5. Source workflow minimum permission correction (`actions: read`) — `BLOCKED BY OWNER CROSS-PROJECT WRITE APPROVAL`
-6. Re-run and verify new standard handoff receipt/artifact — `BLOCKED BY BLOCK 5`
-7. Re-dispatch already-approved Downloads publisher with successful standard source run — `BLOCKED BY BLOCK 6`
-8. Verify public release assets + published bytes/hash — `BLOCKED BY BLOCK 7`
-9. Durable continuity closeout — `READY AFTER BLOCK 8`
+- workflow: `.github/workflows/release-handoff-artifact.yml`
+- source workflow fix commit: `33c6d5ab1d79bba7f13ff988c2ea16dc15728aff`
+- run: `33068785035`
+- job: `98505406525`
+- result: `PASS`
+- source handoff receipt: present in the raw Actions job log
+- artifact: `WhatsApp-Approved-Batch-Assistant-v3.0.1-source-release-handoff`
+- artifact ID: `9645096274`
+- artifact size: `256687759` bytes
+- artifact ZIP SHA-256: `4a0add952e33eefa431582d302a81abfc38c3f3163b5d59f103a4985b3a43381`
+
+## VERIFIED DOWNLOADS PUBLICATION
+
+The existing protected Downloads publisher was dispatched with the approved release identity and the new successful standard source handoff.
+
+- publisher workflow: `.github/workflows/publish-approved-release.yml`
+- publisher workflow parser fix commit: `336395ab65ca3cb58e27e3c84857f9f911a85027`
+- publisher run: `33070777430`
+- publisher job: `98512160163`
+- public repository: `Yazhan-Labs/yazhan-downloads`
+- public release tag: `yazhan-whatsapp-approved-batch-assistant-v3.0.1`
+- public release title: `WhatsApp Approved Batch Assistant 3.0.1`
+- public release URL: https://github.com/Yazhan-Labs/yazhan-downloads/releases/tag/yazhan-whatsapp-approved-batch-assistant-v3.0.1
+- draft: `false`
+- prerelease: `false`
+- published at: `2026-08-27T12:12:49Z`
+
+Published assets, verified from GitHub:
+
+1. `WhatsApp.Approved.Batch.Assistant.v3.0.1.Setup.exe`
+   - size: `256685362` bytes
+   - SHA-256: `5bc840ae5c7f6ab68846e283b7810dcc824fdc6e966f9feb075b99cc7ee5ac6c`
+2. `SHA256SUMS.txt`
+   - published checksum entry matches the installer above
+
+The publisher’s final verification step reported a workflow-only filename lookup failure because GitHub normalized the public installer asset name from spaces to dots. Independent direct download verification passed for the actual public asset bytes, size, and SHA-256. The release was created once; no replacement, retagging, or Dropbox copy was made.
+
+## FINAL CONTINUITY STATE
+
+- source provenance: `VERIFIED / COMPLETE`
+- protected owner release approval: `COMPLETE`
+- Downloads publisher execution: `COMPLETE`
+- public tag and release: `VERIFIED / COMPLETE`
+- all published assets: `VERIFIED / COMPLETE`
+- published installer bytes and SHA-256: `VERIFIED / COMPLETE`
+- licensing, Stripe, pricing, customer, subscription, licence, device state: `NOT TOUCHED`
+- Dropbox publication: `NOT USED FOR THIS RELEASE`
+
+`ACTIVE JOB: NONE — WHATSAPP APPROVED BATCH ASSISTANT 3.0.1 PUBLIC RELEASE VERIFIED`
 
 `PENDING JOB queue: EMPTY`
-
-## Exact next action
-
-Obtain explicit one-time owner permission to modify only `.github/workflows/release-handoff-artifact.yml` in `Yazhan-Labs/whatsapp-approved-batch-assistant` by adding `actions: read` to its existing `permissions:` block. After approval, make that minimum source-workflow-only change, re-run the standard handoff, verify its new artifact/receipt, then automatically resume the already-approved Downloads publication without asking for another public-release approval unless the release identity/scope changes.
