@@ -155,7 +155,7 @@ jobs:
           test "${#public_assets[@]}" -gt 0 || { echo "No public release assets found." >&2; exit 1; }
 
           for asset in "${public_assets[@]}"; do
-            expected="$(tr -d '\r' < SHA256SUMS.txt | awk -v name="$asset" 'tolower($2)==tolower(name) {print tolower($1)}' | head -n1)"
+            expected="$(tr -d '\r' < SHA256SUMS.txt | awk -v name="$asset" '{hash=$1; sub(/^[^[:space:]]+[[:space:]]+/, "", $0); if (tolower($0)==tolower(name)) {print tolower(hash)}}' | head -n1)"
             test -n "$expected" || { echo "SHA256SUMS.txt has no entry for $asset." >&2; exit 1; }
             actual="$(sha256sum "$asset" | awk '{print tolower($1)}')"
             test "$actual" = "$expected" || { echo "SHA-256 mismatch for $asset." >&2; exit 1; }
