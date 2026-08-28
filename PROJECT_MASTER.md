@@ -1,6 +1,6 @@
 # Yazhan Downloads — Project Master
 
-Last updated: 2026-08-26
+Last updated: 2026-08-28
 
 ## Project identity
 
@@ -246,9 +246,22 @@ Public release:
 ## Protected release guardrails
 
 - Do not invent release URLs, assets, checksums, versions, or publication state.
-- Do not delete existing releases.
+- Do not delete existing releases unless the owner gives fresh explicit approval for an exact superseded-release retirement. Owner-approved exception on 2026-08-28 retired Chat Cleaner 2.0.0 release/tag while retaining Chat Cleaner 2.1.1 and WhatsApp Approved Batch Assistant 3.0.1.
 - Do not replace unrelated release assets.
 - Do not move/reuse an existing release tag.
 - Do not publish without verified provenance and fresh owner approval.
 - Do not expose credentials.
 - Do not touch product licensing, Stripe, pricing, customer/subscription/licence/device state, or shared runner infrastructure from this repository.
+
+
+## Superseded public release retirement — 2026-08-28
+
+- Owner instruction: keep only the latest uploaded public version of WhatsApp Approved Batch Assistant and Yazhan Chat Cleaner so superseded installers cannot be downloaded.
+- Fresh destructive approval: received in the project conversation on 2026-08-28.
+- Scope resolved from current GitHub truth: no older WABAA public release existed; Chat Cleaner 2.0.0 was the only superseded public release.
+- Deleted public release: `chat-cleaner-v2.0.0` (Yazhan Chat Cleaner v2.0.0).
+- Deleted Git tag: `chat-cleaner-v2.0.0`.
+- Retained current Chat Cleaner release: `yazhan-chat-cleaner-v2.1.1`.
+- Retained current WABAA release: `yazhan-whatsapp-approved-batch-assistant-v3.0.1`.
+- Result: `SUPERSEDED RELEASE RETIREMENT: PASS`.
+- This is a specific owner-approved exception to the normal no-release-deletion guardrail; it is not blanket permission for future destructive release changes.
